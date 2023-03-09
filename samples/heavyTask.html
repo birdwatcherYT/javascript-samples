@@ -31,6 +31,7 @@
 		}
 		async function startJob(button) {
 			button.disabled = true;
+			canceled = false;
 			const ans = await heavyFunction(); // 重い処理が終わるまで待つ
 			console.log(ans); // 計算結果取得
 			canceled = false;
@@ -41,6 +42,7 @@
 		}
 		// function startJob(button) {
 		// 	button.disabled = true;
+		// 	canceled = false;
 		// 	const ans = heavyFunction(); // heavyFunctionは待たずにstartJob関数を終了させる
 		// 	ans.then( // 終了時の動作を登録しておく
 		// 		async () => {

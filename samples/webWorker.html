@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>時間がかかる重い処理をしたい・自由にキャンセルしたい【Web Worker】</title>
+</head>
+
+<body>
+	<button id="start" onclick="startJob();">start</button>
+	<button onclick="endJob();">end</button>
+	<span id="output"></span>
+	<script>
+		const output = document.getElementById("output");
+		const start = document.getElementById("start");
+		const code = `
+			console.log("worker started");
+			function heavyFunction(end) {
+				let sum = 0;
+				for (let i = 0; i < end; ++i) {
+					sum += i;
+					if (i % 1e6 === 0)
+						postMessage({status: "doing", value: i});
+				}
+				return sum;
+			}
+			onmessage = (e) => {
+				console.log("worker received message", e.data);
+				const ans = heavyFunction(e.data);
+				postMessage({status: "done", value: ans});
+			};
+		`;
+		let worker;
+		async function startJob() {
+			start.disabled = true;
+			worker = new Worker("data:text/javascript;base64," + btoa(code))
+			worker.onmessage = (e) => {
+				console.log("parent received message:", e.data);
+				output.innerHTML = e.data.value;
+				if (e.data.status === "done") {
+					worker.terminate();
+					start.disabled = false;
+				}
+			};
+			worker.postMessage(1e10);
+		}
+		function endJob() {
+			worker?.terminate();
+			start.disabled = false;
+		}
+	</script>
+</body>
+
+</html>
