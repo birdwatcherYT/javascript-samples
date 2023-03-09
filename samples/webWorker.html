@@ -35,6 +35,7 @@
 		async function startJob() {
 			start.disabled = true;
 			worker = new Worker("data:text/javascript;base64," + btoa(code))
+			// worker = new Worker("worker.js");
 			worker.onmessage = (e) => {
 				console.log("parent received message:", e.data);
 				output.innerHTML = e.data.value;
