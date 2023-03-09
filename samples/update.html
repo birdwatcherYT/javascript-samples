@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>数秒おきに画面を更新する【定期実行】</title>
+</head>
+
+<body>
+	<button onclick="clicked(this);">ボタン</button>
+	<span id="output"></span>
+	<script>
+		function clicked(button) {
+			button.disabled = true;
+			const output = document.getElementById("output");
+			let i = 0;
+			output.innerHTML = i;
+			const timerId = setInterval(() => {
+				if (++i < 10) {
+					output.innerHTML = i;
+				} else {
+					clearInterval(timerId); // 定期実行の終了
+					button.disabled = false;
+				}
+			}, 1000); // 1秒おきに実行
+		}
+	</script>
+</body>
+
+</html>

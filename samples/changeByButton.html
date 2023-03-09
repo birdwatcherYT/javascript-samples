@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ボタンでhtmlドキュメントを変更する</title>
+</head>
+
+<body>
+	<input id="input">
+	<button onclick="clicked();">ボタン</button>
+	<div id="output"></div>
+
+	<script>
+		function clicked() {
+			const input = document.getElementById("input");
+			const output = document.getElementById("output");
+			output.innerHTML = `<b>${input.value}</b>`;
+		}
+	</script>
+</body>
+
+</html>

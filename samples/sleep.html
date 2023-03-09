@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>数秒間処理を休ませる【スリープ】</title>
+</head>
+
+<body>
+	<button onclick="clicked(this);">ボタン</button>
+	<span id="output"></span>
+	<script>
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+		async function clicked(button) {
+			button.disabled = true;
+			const output = document.getElementById("output");
+			for (let i = 0; i < 10; ++i) {
+				output.innerHTML = i;
+				await sleep(1000); // 1秒待機
+			}
+			button.disabled = false;
+		}
+	</script>
+</body>
+
+</html>

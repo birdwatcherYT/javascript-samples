@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>時間がかかる重い処理をしたい・自由にキャンセルしたい【無理やり】</title>
+</head>
+
+<body>
+	<button onclick="startJob(this);">start</button>
+	<button onclick="endJob();">end</button>
+	<span id="output"></span>
+	<script>
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+		const output = document.getElementById("output");
+		let canceled = false; // キャンセルフラグ
+		async function heavyFunction() {// 非常に重い処理
+			let sum = 0;
+			for (let i = 0; i < 1e10; ++i) {
+				sum += i;
+				if (i % 1e6 === 0) {
+					output.innerHTML = i; // 進捗状況の更新
+					await sleep(0); // 重い処理内で定期的に他のジョブへ譲る
+					if (canceled)
+						return -1;
+				}
+			}
+			return sum;
+		}
+		async function startJob(button) {
+			button.disabled = true;
+			const ans = await heavyFunction(); // 重い処理が終わるまで待つ
+			console.log(ans); // 計算結果取得
+			canceled = false;
+			button.disabled = false;
+		}
+		function endJob() {
+			canceled = true;
+		}
+		// function startJob(button) {
+		// 	button.disabled = true;
+		// 	const ans = heavyFunction(); // heavyFunctionは待たずにstartJob関数を終了させる
+		// 	ans.then( // 終了時の動作を登録しておく
+		// 		async () => {
+		// 			console.log(await ans); // 計算結果取得
+		// 			canceled = false;
+		// 			button.disabled = false;
+		// 		}
+		// 	);
+		// }
+	</script>
+</body>
+
+</html>
