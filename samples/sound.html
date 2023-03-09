@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>音を鳴らす</title>
+</head>
+
+<body>
+	<button onclick="play();">play</button>
+	<script>
+		function play() {
+			const ctx = new AudioContext();
+			const oscillator = ctx.createOscillator();
+			let current_time = ctx.currentTime;
+
+			const freqAndTime = [[400, 1], [300, 2]];
+			for (const [freq, time] of freqAndTime) {
+				oscillator.frequency.setValueAtTime(freq, current_time);
+				current_time += time;
+			}
+
+			oscillator.connect(ctx.destination);
+			oscillator.start(ctx.currentTime);
+			oscillator.stop(current_time);
+		}
+		window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	</script>
+</body>
+
+</html>

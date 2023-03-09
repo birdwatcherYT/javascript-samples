@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>バックグラウンドで止まらない定期実行【Web Worker】</title>
+</head>
+
+<body>
+	<span id="output"></span>
+	<script>
+		const output = document.getElementById("output");
+		const code = `
+			onmessage = (e) => {
+				setInterval(() => self.postMessage(null), e.data);
+			};
+		`;
+		const worker = new Worker("data:text/javascript;base64," + btoa(code));
+		let i = 0;
+		output.innerHTML = i;
+		worker.onmessage = (e) => {
+			output.innerHTML = ++i;
+		};
+		worker.postMessage(1000);
+	</script>
+</body>
+
+</html>
