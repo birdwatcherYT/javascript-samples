@@ -24,7 +24,7 @@
 				reader.onload = (event) => { output.innerHTML = `<img src="${event.target.result}" width="500">`; }
 				reader.readAsDataURL(file);
 			} else if (file.type.match("audio.*")) {
-				reader.onload = (event) => { output.innerHTML = `<audio controls src="${event.target.result}"><audio>`; }
+				reader.onload = (event) => { output.innerHTML = `<audio controls src="${event.target.result}"></audio>`; }
 				reader.readAsDataURL(file);
 			} else if (file.type.match("video.*")) {
 				reader.onload = (event) => { output.innerHTML = `<video controls src="${event.target.result}" width="500"></video>`; }
