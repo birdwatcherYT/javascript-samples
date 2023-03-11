@@ -8,11 +8,11 @@
 
 <body>
 	<h1>選択したテキスト・画像・音楽・動画ファイルの読み込み</h1>
-	<input type="file" onChange="readImage(this.files);">
+	<input type="file" onChange="readFile(this.files);">
 	<div id="output"></div>
 	<script>
 		const output = document.getElementById("output");
-		function readImage(files) {
+		function readFile(files) {
 			if (files.length === 0) return;
 			const file = files[0];
 			console.log(file.type)
