@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ページ下にフッターを作る</title>
+	<style>
+		footer {
+			width: 100%;
+			text-align: center;
+			background-color: lightblue;
+			bottom: 0; /* 一番下に表示 */
+			position: absolute;
+		}
+
+		footer::after {
+			content: "Copyright: @birdwatcher"
+		}
+
+		body {
+			min-height: calc(100vh - 30px); /* ウィンドウサイズ縦幅 - 30ピクセル */
+			position: relative;
+			box-sizing: border-box;
+			padding-bottom: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>ページ下にフッターを作る</h1>
+	<footer></footer>
+</body>
+
+</html>
